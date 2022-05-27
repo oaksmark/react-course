@@ -1,5 +1,9 @@
-import Expenses from './components/Expenses';
+import React from 'react';
+//Este import pode ser omitido caso esteja sendo usado JSX
+//JSX trata-se de uma extensão de sintaxe (Ex: abaixo).
 
+import Expenses from './components//Expenses/Expenses';
+//Este o componente inicial da aplicação
 function App() {
   const expenses = [
     {
@@ -24,11 +28,20 @@ function App() {
   ];
 
   return (
+    // Este é um exemplo de JSX
     <div>
       <h2>Let's get started!</h2>
       <Expenses items={expenses}/>
     </div>
   );
+  // Este é um exemplo de Objeto React
+  //   return React.createElement(
+  //   'div',
+  //   {},
+  //   React.createElement('h2',{}, "let's get started!"),
+  //   React.createElement(Expenses, {items: expenses})
+  //   );
+   
 }
 
 export default App;
