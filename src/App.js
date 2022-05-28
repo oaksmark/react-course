@@ -1,6 +1,6 @@
 import React from 'react';
 //Este import pode ser omitido caso esteja sendo usado JSX
-//JSX trata-se de uma extensão de sintaxe (Ex: abaixo).
+//JSX trata-se de uma extensão de sintaxe non-standard (Ex: abaixo).
 
 import Expenses from './components//Expenses/Expenses';
 //Este o componente inicial da aplicação
