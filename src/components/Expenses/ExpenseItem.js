@@ -1,3 +1,6 @@
+//useState é um hook que adiciona um state do React
+//responsável por retornar o state atual
+//e uma função que atualiza o state [count, setCount]
 import React, {useState} from 'react';
 
 import Card from '../UI/Card';
@@ -22,6 +25,10 @@ const ExpenseItem = (props) => {
         <h2>{title}</h2>
         <div className="expense-item__price">${props.amount}</div>
       </div>
+      {/** Um event (onclick) dispara a chamada da função clickHandler
+       *   a qual altera o valor da variavel title no h2 pelo valor definido
+       *   no parâmetro da função setTitle
+       */}
       <button onClick={clickHandler}>Change title</button>
     </Card>
   );
