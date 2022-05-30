@@ -1,9 +1,11 @@
+
+//Este o componente inicial da aplicação
+
 import React from 'react';
 //Este import pode ser omitido caso esteja sendo usado JSX
 //JSX trata-se de uma extensão de sintaxe non-standard (Ex: abaixo).
-
+import NewExpense from './components/NewExpense/NewExpense';
 import Expenses from './components//Expenses/Expenses';
-//Este o componente inicial da aplicação
 function App() {
   const expenses = [
     {
@@ -30,7 +32,7 @@ function App() {
   return (
     // Este é um exemplo de JSX
     <div>
-      <h2>Let's get started!</h2>
+      <NewExpense />
       <Expenses items={expenses}/>
     </div>
   );
