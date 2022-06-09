@@ -29,10 +29,14 @@ function App() {
     },
   ];
 
+  const addExpenseHendler = expense => {
+    console.log('I App.js');
+    console.log(expense);
+  }
   return (
     // Este é um exemplo de JSX
     <div>
-      <NewExpense />
+      <NewExpense onAddExpense={addExpenseHendler} />
       <Expenses items={expenses}/>
     </div>
   );
