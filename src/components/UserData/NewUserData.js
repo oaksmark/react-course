@@ -4,40 +4,53 @@ import Button from "../UI/Button/Button";
 import styles from "./NewUserData.module.css";
 
 const NewUserData = (props) => {
-  const [enteredValue, setEnteredValue] = useState("");
+  const [enteredNameValue, setEnteredNameValue] = useState("");
+  const [enteredAgeValue, setEnteredAgeValue] = useState("");
   const [isValid, setIsValid] = useState(true);
-//   const [addData, setAddData] = useState(false);
+  //   const [addData, setAddData] = useState(false);
 
-  const goalInputChangeHandler = (event) => {
+  const nameInputChangeHandler = (event) => {
     if (event.target.value.trim().length > 0) {
       setIsValid(true);
-    //setAddData(false);
-    //console.log(event.target.value);
+      //setAddData(false);
+      console.log(event.target.value);
     }
-    setEnteredValue(event.target.value);
+    setEnteredNameValue(event.target.value);
   };
-
+  const ageInputChangeHandler = (event) => {
+    if (event.target.value.trim().length > 0) {
+      setIsValid(true);
+      //setAddData(false);
+      console.log(event.target.value);
+    }
+    setEnteredAgeValue(event.target.value);
+  };
   const formSubmitHandler = (event) => {
     event.preventDefault();
-    if (enteredValue.trim().length === 0) {
-      setIsValid(false);
+    if ( enteredNameValue.trim().length === 0 || enteredAgeValue.trim().length === 0 ) {
+      // setIsValid(false);
+      alert("Preencha todos os campos!!");
       return;
-    }
-    props.newUser(enteredValue);
-    // console.log(enteredValue);
+    };
+    if ( isNaN(enteredAgeValue) === true ) {
+      alert("O campo idade deve ser numérico");
+      return;
+    };
+    props.newUser(enteredNameValue, enteredAgeValue);
+    // console.log(enteredNameValue, enteredAgeValue);
   };
   return (
-      <form onSubmit={formSubmitHandler}>
-        <div
-          className={`${styles["form-control"]} ${!isValid && styles.invalid}`}
-        >
-          <label>User Name</label>
-          <input type="text" onChange={goalInputChangeHandler} />
-          <label>Age (Years)</label>
-          <input type="date" onChange={goalInputChangeHandler} />
-          <Button type="submit">Add User</Button>
-        </div>
-      </form>
+    <form onSubmit={formSubmitHandler}>
+      <div
+        className={`${styles["form-control"]} ${!isValid && styles.invalid}`}
+      >
+        <label>User Name</label>
+        <input type="text" onChange={nameInputChangeHandler} />
+        <label>Age (Years)</label>
+        <input type="text" onChange={ageInputChangeHandler} />
+        <Button type="submit"><b> Add User </b></Button>
+      </div>
+    </form>
   );
 };
 
