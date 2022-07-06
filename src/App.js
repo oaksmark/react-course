@@ -9,17 +9,14 @@ const App = () => {
     { text: "Maria", age: "36", id: "02" },
   ]);
 
-  const addNewUser = (enteredNameValue, enteredAgeValue) => {
+  const addNewUserHandler = (enteredNameValue, enteredAgeValue) => {
     setUserData((prevDatas) => {
-      const updatedDatas = [...prevDatas];
-      updatedDatas.unshift({
+       return [...prevDatas,{
         text: enteredNameValue,
         age: enteredAgeValue,
         id: Math.random().toString(),
-      });
-      return updatedDatas;
+      }];
     });
-  console.log(userData);
   };
 
   const deleteItemHandler = (dataId) => {
@@ -42,14 +39,13 @@ const App = () => {
       <UserDataList datas={userData} onDeleteItem={deleteItemHandler} />
     );
   }
+  // console.log(userData);
 
   return (
-    <div>
-      <section>
-        <NewUserData newUser={addNewUser} />
-      </section>
-      <section>{content}</section>
-    </div>
+    <React.Fragment>
+      <NewUserData onAddUser={addNewUserHandler} />
+      {content}
+    </React.Fragment>
   );
 };
 
