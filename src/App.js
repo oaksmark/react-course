@@ -5,14 +5,14 @@ import Card from "./components/UI/Card/Card";
 
 const App = () => {
   const [userData, setUserData] = useState([
-    { text: "João", age: "35", id: "01" },
-    { text: "Maria", age: "36", id: "02" },
+    { name: "João", age: "35", id: "01" },
+    { name: "Maria", age: "36", id: "02" },
   ]);
 
   const addNewUserHandler = (enteredNameValue, enteredAgeValue) => {
     setUserData((prevDatas) => {
        return [...prevDatas,{
-        text: enteredNameValue,
+        name: enteredNameValue,
         age: enteredAgeValue,
         id: Math.random().toString(),
       }];

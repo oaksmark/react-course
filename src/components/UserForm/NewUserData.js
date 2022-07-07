@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect} from "react";
 
 import Card from "../UI/Card/Card";
 import Button from "../UI/Button/Button";
@@ -10,6 +10,12 @@ const NewUserData = (props) => {
   const ageInputRef = useRef();
 
   const [error, setError] = useState();
+
+  // useEffect(() => {
+  //   if(error){
+  //   nameInputRef.current.focus();
+  //   }
+  // }, [error]);
  
 
   const formSubmitHandler = (event) => {
@@ -21,6 +27,7 @@ const NewUserData = (props) => {
       enteredUserAge.trim().length === 0
     ) {
       setError({
+        id: "1",
         title: "Invalid input",
         message: "Please enter a valid name and age (non-empty values).",
       });
@@ -28,6 +35,7 @@ const NewUserData = (props) => {
     }
     if (isNaN(enteredUserAge) === true || enteredUserAge < 0) {
       setError({
+        id: "2",
         title: "Invalid input",
         message: "Please enter a number for age.",
       });
@@ -40,6 +48,12 @@ const NewUserData = (props) => {
   };
 
   const errorHandler = () => {
+    if (error.id === "1") {
+    nameInputRef.current.focus();
+    setError(null);
+    return;
+    };
+    ageInputRef.current.focus();
     setError(null);
   };
 
