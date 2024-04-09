@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function Player({
   initialName,
@@ -32,19 +32,28 @@ export default function Player({
     console.log(event.target.value);
   }
 
-  // Esta função apenas limpa o campo do input no momento em que o
-  // cursor seleciona o local (onFocus) de digitação
-  // function handleClear(){
-  //   isEditing && setPlayerName('');
-
-  // }
-
   let editablePlayerName = <span className="player-name">{playerName}</span>;
   let btnCaption = "Edit";
 
+  // A função abaixo "limpa" o campo do input 
+  // quando selecionado com o cursor através do
+  // atributo onFocus
+  // OBS: necessário importar useRef 
+  const ref = useRef(null);
+  function handleClean() {
+    return (ref.current.value = "");
+  }
+
   if (isEditing) {
     editablePlayerName = (
-      <input type="text" required value={playerName} onChange={handleChange} />
+      <input
+        type="text"
+        required
+        value={playerName}
+        onChange={handleChange}
+        ref={ref}
+        onFocus={handleClean}
+      />
     );
     btnCaption = "Save";
   }
