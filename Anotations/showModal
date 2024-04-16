@@ -1,0 +1,44 @@
+import Toast from './Toast';
+import React from 'react'; 
+
+function App() {
+    const message = "Congrats! You enrolled into React couse!";
+    const show = React.useRef(false);
+    
+  function handleEnrol() {
+    // Todo: Show toast
+    show.current = true; 
+
+    setTimeout(() => {
+      // Todo: hide toast
+      show.current = false;
+    }, 3000);
+  }
+
+  return (
+    <div id="app">
+      {/* Todo: Render <Toast /> component (conditionally) here */}
+      {show && <Toast ref={show} message= {message}/>}
+      <article>
+        <h2>React Course</h2>
+        <p>
+          A course that teaches you React from the ground up and in great depth!
+        </p>
+        <button onClick={handleEnrol}>Enrol</button>
+      </article>
+    </div>
+  );
+}
+
+export default App;
+
+import React from 'react';
+
+const Toast = React.forwardRef(function Toast({ message }, ref) {
+  return (
+    <aside ref={ref} className="toast" data-testid="toast">
+      <p>{message}</p>
+    </aside>
+  );
+});
+export default Toast;

@@ -15,3 +15,8 @@ na mesma função.
 ![](LiftingStateUp.png)
 Lift state up é um recurso do React que permite passar um update
 de um component antecessor para um segundo (child) component via props
+
+![](stateVSrefs.png)
+Ref é um hook que executa uma tarefa similar ao State, porém não 
+faz o update do componente aplicado em questão. Como vantagem,
+ele é capaz de acessar diretamente o DOM do elemento (tag) e APIs. 
