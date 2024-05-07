@@ -1,36 +1,26 @@
 import { useRef, useState } from "react";
 import NewProject from "./components/NewProject.jsx";
-import NoProject from "./components/NoProjec";
+import NoProject from "./components/NoProjec.jsx";
 import ProjectArea from "./components/ProjectArea.jsx";
 import Aside from "./components/Aside.jsx";
 import { DATA_PROJECT } from "./components/data.js";
-import Modal from "./components/Modal.jsx";
 
-export default function App({ addProject }, ref) {
-  // const lastId = useRef(Number(userInput[userInput.length - 1].id));
+export default function App() {
   const dialog = useRef();
-  const createProject = useRef(false);
   const taskInput = useRef(null);
-  const titleInpt = useRef();
-  const descrInput = useRef();
-  const dateInput = useRef();
   const [noProject, setNoProject] = useState(true);
   const [hasProject, setHasProject] = useState(false);
   const [newProject, setNewProject] = useState(false);
   const [userInput, setUserInput] = useState(DATA_PROJECT);
-  const [idCtrl, setIdCtrl] = useState(
-    Number(userInput[userInput.length - 1].id)
-  );
+  const [idCtrl, setIdCtrl] = useState(Number(userInput[userInput.length - 1].id));
   const [taskId, setTaskId] = useState(0);
-  const [indexPriority, setIndexPriority] = useState(
-    userInput.length - Number(1)
-  );
+  const [indexPriority, setIndexPriority] = useState(userInput.length - Number(1));
   const [idPriority, setIdPriority] = useState(idCtrl);
+  const [isSelected, setIsSelected] = useState(null);
 
-  console.log(userInput);
-  console.log("current id " + idCtrl + " id " + userInput[0].id);
-  console.log("index priority " + indexPriority + " idPriority " + idPriority);
-  // console.log("IdToIndex " + idToIndex.current);
+  // console.log(userInput);
+  // console.log("current id " + idCtrl + " id " + userInput[0].id);
+  // console.log("index priority " + indexPriority + " idPriority " + idPriority);
   
 
 
@@ -39,9 +29,9 @@ export default function App({ addProject }, ref) {
     setNewProject(true);
     setHasProject(false);
     setIdPriority(idCtrl);
-    // handleUserInput();
-    setIndexPriority(userInput.length - Number(1)); //observação
+    setIndexPriority(userInput.length - Number(1));
     setIdCtrl(Number(idCtrl + 1));
+    setIsSelected(Number(idCtrl + 1))
     // console.log(noProject);
   }
   function cancelProject() {
@@ -49,6 +39,7 @@ export default function App({ addProject }, ref) {
     setNewProject(false);
     setHasProject(false);
     setIdCtrl(Number(idCtrl - 1));
+    setIsSelected(null);
   }
   // Existe um Hook específico pra sibmit de forms (react-hook-form)
   // https://www.freecodecamp.org/news/how-to-build-forms-in-react/
@@ -68,16 +59,18 @@ export default function App({ addProject }, ref) {
     setNewProject(false);
     setHasProject(true);
     setNoProject(false);
-    console.log("idAside " + id + " index " + index);
+    setIsSelected(Number(id));
+    // console.log("idAside " + id + " index " + index);
   }
 
-  function handleUserInput() {
+  function handleUserInput(inputs) {
     // setIsEditing((editing) => !editing);
-    const title = titleInpt.current.value;
-    const description = descrInput.current.value;
-    const date = dateInput.current.value;
+    const title = inputs.title;
+    const description = inputs.description;
+    const date = inputs.date;
+    // console.log(inputs);
 
-    if (title == "" || description == "" || date == "") {
+    if (title.trim() === "" || description.trim() === "" || date.trim() === "") {
       dialog.current.showModal();
       setNewProject(true);
       setHasProject(false);
@@ -122,7 +115,6 @@ export default function App({ addProject }, ref) {
   }
 
   function handleUserTask() {
-    // let taskIndex = taskInput.findIndex((x) => x.id == idToIndex.current.id);
      if(taskInput.current.value == "") {
       dialog.current.showModal();
      } 
@@ -142,14 +134,10 @@ export default function App({ addProject }, ref) {
     );
     setTaskId(Number(taskId + 1));
     taskInput.current.value = "";
-    // setIndexPriority(Number(indexPriority));
-    // setNewProject(false);
-    // setHasProject(true);
-    // setNoProject(false);
      }
   }
 
-  function deleteProject(index, id) {
+  function handleDeleteProject(index, id) {
     const resetInputs = [
       {
         id: Number(0),
@@ -176,7 +164,7 @@ export default function App({ addProject }, ref) {
     }
   }
 
-  function clearTask(id) {
+  function handleClearTask(id) {
     setUserInput(
       userInput.map((project) =>
         project.id == idPriority
@@ -187,31 +175,29 @@ export default function App({ addProject }, ref) {
           : project
       )
     );
-    console.log(id);
+    // console.log(id);
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <Modal ref={dialog}/>      
       <Aside
         onClick={addProject}
         userInput={userInput}
+        isSelected={isSelected}
         selectProject={handleSelectProject}
       />
-
-      {noProject && <NoProject ref={createProject} onClick={addProject} />}
+      {noProject && <NoProject onClick={addProject} />}
       {hasProject && (
         <ProjectArea
-          ref={{ ref1: userInput, ref2: taskInput, ref3: indexPriority }}
+          ref={{ ref1: userInput, ref2: taskInput, ref3: indexPriority, ref4: dialog }}
           onSubmit={handleUserTask}
-          onDelete={deleteProject}
-          onClear={clearTask}
+          onDelete={handleDeleteProject}
+          onClear={handleClearTask}
         />
       )}
       {newProject && (
         <NewProject
-          ref={{ ref1: titleInpt, ref2: descrInput, ref3: dateInput }}
-          userInput={userInput}
+          ref={dialog}
           onSubmit={handleUserInput}
           onCancel={cancelProject}
         />

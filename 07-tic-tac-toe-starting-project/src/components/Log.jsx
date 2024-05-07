@@ -10,7 +10,7 @@ const Log = ({ turns, players }) => {
     );
   });
  
-  return <ol id="log">{logs}</ol>;
+  return <ol name="log">{logs}</ol>;
 };
  
 export default Log;

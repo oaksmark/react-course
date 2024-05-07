@@ -1,4 +1,7 @@
+// import { clickButton } from "./Buttons.jsx";
 import { calculateInvestmentResults, formatter } from "../../util/investment";
+
+
 
 export default function Results({ input }) {
   const resultsData = calculateInvestmentResults(input);
@@ -6,7 +9,7 @@ export default function Results({ input }) {
     resultsData[0].valueEndOfYear -
     resultsData[0].interest -
     resultsData[0].annualInvestment;
-  console.log(resultsData);
+  // console.log(clickButton);
 
   return (
     <table id="result">

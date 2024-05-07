@@ -1,5 +1,8 @@
-export default function UserInput({onChange, userInput}) {
+import Buttons from "./Buttons";
 
+import { forwardRef } from "react";
+
+const UserInput = forwardRef( function UserInput({ onChange, userInput, btnResult, btnRefresh }, ref) {
   return (
     <section id="user-input">
       <div className="input-group">
@@ -9,7 +12,8 @@ export default function UserInput({onChange, userInput}) {
             <input
               name="initialInvestment"
               onChange={(event) =>
-                onChange("initialInvestment", event.target.value)}
+                onChange("initialInvestment", event.target.value)
+              }
               type="number"
               required
               value={userInput.initialInvestment}
@@ -20,7 +24,8 @@ export default function UserInput({onChange, userInput}) {
             <input
               name="expectedReturn"
               onChange={(event) =>
-                onChange("expectedReturn", event.target.value)}
+                onChange("expectedReturn", event.target.value)
+              }
               type="number"
               required
               value={userInput.expectedReturn}
@@ -32,8 +37,9 @@ export default function UserInput({onChange, userInput}) {
             <label>ANNUAL INVESTMENT</label>
             <input
               name="annualInvestment"
-              onChange={(event) => 
-                onChange("annualInvestment", event.target.value)}
+              onChange={(event) =>
+                onChange("annualInvestment", event.target.value)
+              }
               type="number"
               required
               value={userInput.annualInvestment}
@@ -43,8 +49,7 @@ export default function UserInput({onChange, userInput}) {
             <label>DURATION</label>
             <input
               name="duration"
-              onChange={(event) => 
-                onChange("duration", event.target.value)}
+              onChange={(event) => onChange("duration", event.target.value)}
               type="number"
               required
               value={userInput.duration}
@@ -52,7 +57,10 @@ export default function UserInput({onChange, userInput}) {
           </p>
         </div>
       </div>
-      {/* <button onClick={resultClick}>click</button> */}
+      <Buttons ref={ref} btnResult={btnResult} btnRefresh={btnRefresh}/>
     </section>
   );
-}
+})
+export default UserInput;
+
+

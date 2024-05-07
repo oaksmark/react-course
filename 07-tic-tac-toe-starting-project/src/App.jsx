@@ -98,8 +98,8 @@ function App() {
 
   return (
     <main>
-      <div id="game-container">
-        <ol id="players" className="highlight-player">
+      <div name="game-container">
+        <ol name="players" className="highlight-player">
           <Player
             key={PLAYERS.X}
             initialName={PLAYERS.X}

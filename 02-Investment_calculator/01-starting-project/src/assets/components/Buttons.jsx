@@ -1,14 +1,12 @@
-export default function Buttons({ btnResult }) {
-  // const setBtnResult = btnResult;
-  function clickButton() {
-    btnResult = true;
-    console.log(btnResult);
-  }
+import { forwardRef } from "react";
+
+const Buttons = forwardRef(function Buttons({ btnResult, btnRefresh },ref) {
 
   return (
-    <p className="input-group">
-      <button onClick={() => clickButton(btnResult)}>Results</button>
-      <button>Refresh</button>
+    <p className="input-group" ref={ref}>
+      <button onClick={() =>btnResult()}>Results</button>
+      <button onClick={() =>btnRefresh()}>Refresh</button>
     </p>
   );
-}
+})
+export default Buttons;
