@@ -1,5 +1,6 @@
 import { forwardRef, useRef } from "react";
 import Modal from "./Modal";
+import Input from "./Input";
 
 const NewProject = forwardRef(function NewProject({ onSubmit, onCancel }, ref) {
   // const { ref1, ref2, ref3, ref4 } = ref;
@@ -13,7 +14,7 @@ const NewProject = forwardRef(function NewProject({ onSubmit, onCancel }, ref) {
       description: description.current.value,
       date: date.current.value,
     })
-    // console.log(inputs);
+    console.log(title.current.value);
   }
 
   return (
@@ -39,39 +40,22 @@ const NewProject = forwardRef(function NewProject({ onSubmit, onCancel }, ref) {
             </button>
           </menu>
         </div>
-        <div className="mt-12 text-left w-2/3">
-          <label className="text-sm font-bold uppercase text-stone-500">
-            Title
-          </label>
-          <input
-            ref={title}
-            name="title"
-            type="text"
-            className="w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600"
-          />
-        </div>
-        <div className="mt-12 text-left w-2/3">
-          <label className="text-sm font-bold uppercase text-stone-500">
-            Description
-          </label>
-          <textarea
-            ref={description}
-            name="description"
-            type="text"
-            className="w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600"
-          />
-        </div>
-        <div className="mt-12 text-left w-2/3">
-          <label className="text-sm font-bold uppercase text-stone-500">
-            Due Date
-          </label>
-          <input
-            ref={date}
-            name="date"
-            type="date"
-            className="w-full p-1 border-b-2 rounded-sm border-stone-300 bg-stone-200 text-stone-600 focus:outline-none focus:border-stone-600"
-          />
-        </div>
+        <Input ref={title} 
+        label="title"
+        name="title"
+        type="text"
+        />
+        <Input ref={description}  
+        label="description"
+        name="description"
+        type="text"
+        textarea
+        />
+        <Input ref={date}
+        label="due date"
+        name="date"
+        type="date"
+        />
       </form>
     </>
   );

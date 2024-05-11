@@ -13,14 +13,14 @@ export default function App() {
   const [newProject, setNewProject] = useState(false);
   const [userInput, setUserInput] = useState(DATA_PROJECT);
   const [idCtrl, setIdCtrl] = useState(Number(userInput[userInput.length - 1].id));
-  const [taskId, setTaskId] = useState(0);
+  const [taskId, setTaskId] = useState(1);
   const [indexPriority, setIndexPriority] = useState(userInput.length - Number(1));
   const [idPriority, setIdPriority] = useState(idCtrl);
   const [isSelected, setIsSelected] = useState(null);
 
-  // console.log(userInput);
-  // console.log("current id " + idCtrl + " id " + userInput[0].id);
-  // console.log("index priority " + indexPriority + " idPriority " + idPriority);
+  console.log(userInput);
+  console.log("current id " + idCtrl + " id " + userInput[0].id);
+  console.log("index priority " + indexPriority + " idPriority " + idPriority);
   
 
 
@@ -68,6 +68,7 @@ export default function App() {
     const title = inputs.title;
     const description = inputs.description;
     const date = inputs.date;
+    const tasks =  {id: 0};
     // console.log(inputs);
 
     if (title.trim() === "" || description.trim() === "" || date.trim() === "") {
@@ -86,7 +87,7 @@ export default function App() {
               title: title,
               description: description,
               date: date,
-              tasks: [],
+              tasks: [tasks],
             },
           ]);
         setNewProject(false);
@@ -101,7 +102,7 @@ export default function App() {
               title: title,
               description: description,
               date: date,
-              tasks: [],
+              tasks: [tasks],
             },
           ]);
         setNewProject(false);
@@ -189,7 +190,9 @@ export default function App() {
       {noProject && <NoProject onClick={addProject} />}
       {hasProject && (
         <ProjectArea
-          ref={{ ref1: userInput, ref2: taskInput, ref3: indexPriority, ref4: dialog }}
+          ref={{ ref1: taskInput, ref2: dialog }}
+          userInput={userInput}
+          indexPriority={indexPriority}
           onSubmit={handleUserTask}
           onDelete={handleDeleteProject}
           onClear={handleClearTask}
