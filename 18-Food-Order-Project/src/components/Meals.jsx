@@ -1,42 +1,35 @@
-import { useState, useEffect } from "react";
-import { fetchAvailabelMeals } from "../http";
 import Error from "./Error";
 import MealItem from "./MealItem.jsx";
-import Cart from "./Cart.jsx";
+import useHttp from "../hooks/useHttp.js";
+import Modal from "./Modal.jsx";
+import Button from "./UI/Button.jsx";
+
+const requestConfig = {}; // prevent infinity loop
 
 export default function Meals() {
-  const [meals, setMeals] = useState([]);
-  const [error, setError] = useState();
-  const [errorFetch, setErrorFetch] = useState(false);
+  const {
+    data: meals,
+    isLoading,
+    error,
+  } = useHttp("http://localhost:30000/meals", requestConfig, []);
 
-  useEffect(() => {
-    async function fetchMeals() {
-      //   setIsFetching(true);
+  // console.log(meals);
 
-      try {
-      const loadedMeals = await fetchAvailabelMeals();
-        setMeals(loadedMeals);
-      } catch (error) {
-        setErrorFetch(true)
-        setError({
-          message:
-            error.message || "Cold not fetch meals, please try again later.",
-        });
-        // setIsFetching(false);
-      }
-    }
+  function handleRefresh() {
+    location.reload(); // este procedimento não é recomendado
+  }
 
-    fetchMeals();
-  }, [errorFetch]);
-  console.log(meals);
+  if (isLoading) {
+    return <p className="modal-dialog"><h2>Fetching meals...</h2></p>;
+  }
 
-  if (errorFetch) {
+  if (error) {
     return (
-      <Error
-        title="An error occurred!"
-        message={error.message}
-        onConfirm={() => setErrorFetch(false)}
-      />
+      <Modal open>
+        <Error title="An error occurred!" message={error}>
+          <Button onClick={handleRefresh}>Refresh</Button>
+        </Error>
+      </Modal>
     );
   }
   return (

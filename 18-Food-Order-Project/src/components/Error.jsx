@@ -1,15 +1,9 @@
-import Button from "./UI/Button.jsx";
-
-export default function Error({ title, message, onConfirm}) {
+export default function Error({ title, message, children}) {
     return (
-      <div  className="meal-error">
+      <div  className="modal-dialog">
         <h2>{title}</h2>
         <p>{message}</p>
-          <div>
-            <Button onClick={onConfirm}>
-              Okay
-            </Button>
-          </div>
+        {children}
       </div>
     );
   }

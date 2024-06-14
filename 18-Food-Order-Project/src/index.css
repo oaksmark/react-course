@@ -106,7 +106,6 @@ h1 {
 .meal-item-actions {
   margin-bottom: 1.5rem;
 }
-
 .cart h2 {
   margin: 1rem 0;
 }
@@ -115,6 +114,20 @@ h1 {
   list-style: none;
   margin: 0.5rem 0;
   padding: 0;
+}
+
+.modal-dialog {
+  width: 90%;
+  max-width: 70rem;
+  list-style: none;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #cccc;
+  background-color: #1d1a16;
+  border-radius: 1rem;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
 }
 
 .modal-actions {
@@ -138,7 +151,7 @@ h1 {
   margin: 2rem 0;
   font-size: 1.15rem;
   font-weight: bold;
-  color: #46443c;
+  color: #cccc;
 }
 
 .cart-item {

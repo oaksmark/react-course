@@ -25,16 +25,22 @@ export default function Cart() {
     <Modal
       className="cart"
       open={userProgressCtx.progress === "cart"}
-      onClose={userProgressCtx.progress === "cart"? handleCloseCart : null}
+      onClose={userProgressCtx.progress === "cart" ? handleCloseCart : null}
       //A lógica onClose acima permite reabrir o modal após sair com a tecla ESC.
     >
-      <h2>Your Cart</h2>
-      <ul>
-        <CartItem></CartItem>
-      </ul>
-      <p className="cart-total">{currencyFormatter.format(cartTotal)}</p>
+      <div className="modal-dialog">
+        <h2>Your Cart</h2>
+        <ul>
+          <CartItem></CartItem>
+        </ul>
+        {cartCtx.items.length === 0 ? (
+          <h2>Is Empty!</h2>
+        ) : (
+          <p className="cart-total">{currencyFormatter.format(cartTotal)}</p>
+        )}
+      </div>
       <p className="modal-actions">
-        <Button onClick={handleCloseCart} textOnly>
+        <Button onClick={handleCloseCart} textonly="true">
           Close
         </Button>
         {cartCtx.items.length > 0 && (

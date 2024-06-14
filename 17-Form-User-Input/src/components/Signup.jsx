@@ -9,11 +9,16 @@ export default function Signup() {
     // fd.get('email') < esta é uma forma de obter os dados inseridos nos inputs
     // mas não é a melhor maneira quando se trata de um form com vários inputs
     // A maneira mais prática (caso abaixo) é usar um recurso nativo (FormData)
+    // IMPORTANTE: a validação é feita usando a prop. (name) no devido input.
     
     const fd = new FormData(event.target);
     const acquisitionChannel = fd.getAll('acquisition'); 
     // realiza o get do checkbox (acquisition) e um array separado
+
     const data = Object.fromEntries(fd.entries());
+    // a const acima cria um objeto com as entradas dos inputs
+    // Ex: { name: John Dee, email: text@example.com} 
+    
     data.acquisition = acquisitionChannel;
     console.log(data);
     
