@@ -23,9 +23,10 @@ export default function Inputs() {
   }
   return (
     <section id="user-input">
-      <Header />
-      <Buttons onClick={() => {binance.sendRequest(); awesomeapi.sendRequest(); gemini.sendRequest()}}
+      <Header>
+        <Buttons onClick={() => {binance.sendRequest(); awesomeapi.sendRequest(); gemini.sendRequest()}}
           value={"Refresh " + icon(10227)} />
+      </Header>      
       <div className="input-group">
         <div>
           <Input
@@ -127,9 +128,7 @@ export default function Inputs() {
           />
         </div>
       </div>
-      <Results data={gemini.isLoading
-                ? "Loading..."
-                : gemini.data}
+      <Results datas={gemini.data}
                 isLoading={gemini.isLoading}/>
     </section>
   );

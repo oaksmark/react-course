@@ -33,14 +33,16 @@ body {
 
 #user-input {
   padding: 1rem;
-  max-width: 90rem;
+  max-width: 75rem;
+  min-height: 40rem;
   margin: 2rem auto;
   border-radius: 4px;
+  justify-content: center;
   background: linear-gradient(180deg, #433600,#0f0d01);
 }
 
 .input-group {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   gap: 1rem;
@@ -86,17 +88,22 @@ input[type="number"] {
   margin: 2rem auto;
   padding: 1rem;
   table-layout: fixed;
-  border-spacing: 4rem;
+  /* border-spacing: 4rem; */
   text-align: center;
 }
 
 #result thead {
-  color: #e4e683;
+  color: #fe9000;
+  background-color: #151515;
 }
 
 #result tbody {
   font-family: "Roboto Condensed", sans-serif;
   color: #ffc404;
+}
+
+#result tr:nth-child(even) {
+  background-color: #ffffff37;
 }
 
 .button {
@@ -130,5 +137,7 @@ input[type="number"] {
 }
 
 .center {
+  width: 100%;
   text-align: center;
+  justify-content: center;
 }

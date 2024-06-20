@@ -1,45 +1,72 @@
 import { useEffect, useState } from "react";
 import { percentResultFormatter, usdFormatter } from "../../util/formatting";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-export default function Results({ data, isLoading }) {
-  const [loading, setLoading] = useState(true);
-  const [datas, setDatas] = useState(data);
-  const getIndex = (data) => datas.changes.findIndex((change) => change == data);
+export default function Results({ datas, isLoading }) {
+  const [loading, setLoading] = useState(isLoading);
+  const [resultDatas, setResultDatas] = useState();
+  const getIndex = (data) =>
+    datas.changes.findIndex((change) => change == data);
   const getNextData = (data) => datas.changes[getIndex(data) + 1];
-  const getPercentData = (data) => (getNextData(data) - data) / getNextData(data);
-  const cssClass = (data) => (getNextData(data) - data) < 0 ? "negative" : "positive";
+  const getPercentData = (data) =>
+    (getNextData(data) - data) / getNextData(data);
+  const cssClass = (data) =>
+    getNextData(data) - data < 0 ? "negative" : "positive";
+
+  function calcDatas() {
+    if (datas) {
+      var arr = datas.changes.map((data) => ({
+        index: getIndex(data) + 1,
+        initVal: data,
+        spread: getNextData(data) - data,
+        finalVal: getNextData(data),
+        percentSpread: getPercentData(data),
+      }));
+      console.log("Its ok ", arr, datas.changes);
+      setResultDatas(arr);
+      setLoading(isLoading)
+    }
+  }
 
   useEffect(() => {
-    setDatas(data);
-    setLoading(isLoading);
-  }, [data, isLoading]);
-  // console.log(datas.changes);
+    calcDatas();
+  }, [datas, isLoading]);
 
+  console.log(resultDatas);
   return (
-    <table id="result">
-      <thead>
-        <tr>
-          <th>Ínice</th>
-          <th>Valor Inicial</th>
-          <th>Spread</th>
-          <th>Valor final</th>
-          <th>Variação</th>
-        </tr>
-      </thead>
-      <tbody>
-        {loading
-          ? datas
-          : datas.changes.map((data) => (
+    <>
+      {loading ? (
+        <div>
+          <h1 className="center">Loading...</h1>
+        </div>
+      ) : (
+        <table id="result" className="center">
+          <thead>
+            <tr>
+              <th>Ínice</th>
+              <th>Valor Inicial</th>
+              <th>Spread</th>
+              <th>Valor final</th>
+              <th>Variação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {resultDatas.map((data) => (
               <tr>
-                <td key={uuidv4()}>{getIndex(data) + 1}</td> 
-                <td key={uuidv4()}>{usdFormatter.format(data)}</td>
-                <td key={uuidv4()} className={cssClass(data)} >{usdFormatter.format(getNextData(data) - data)}</td>
-                <td key={uuidv4()}>{usdFormatter.format(getNextData(data))}</td>
-                <td key={uuidv4()} className={cssClass(data)}>{percentResultFormatter.format(getPercentData(data))}</td>
+                <td key={uuidv4()}>{data.index}</td>
+                <td key={uuidv4()}>{usdFormatter.format(data.initVal)}</td>
+                <td key={uuidv4()} className={cssClass(data.initVal)}>
+                  {usdFormatter.format(data.spread)}
+                </td>
+                <td key={uuidv4()}>{usdFormatter.format(data.finalVal)}</td>
+                <td key={uuidv4()} className={cssClass(data.initVal)}>
+                  {percentResultFormatter.format(data.percentSpread)}
+                </td>
               </tr>
             ))}
-      </tbody>
-    </table>
+          </tbody>
+        </table>
+      )}
+    </>
   );
 }
