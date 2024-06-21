@@ -33,16 +33,12 @@ export default function Inputs() {
             onChange={handleSelect}
             type="select"
             label="btc-dollar ($)"
-            data={binance.isLoading ? "Loading..." : binance.data[index].symbol}
+            data={binance.error ? "Error" : (binance.isLoading ? "Loading..." : binance.data[index].symbol)}
           />
           <Input
             type="text"
             label="variação (%)"
-            data={
-              binance.isLoading
-                ? "Loading..."
-                : percentFormatter.format(
-                    binance.data[index].priceChangePercent / 100
+            data={binance.error ? "Error" : (binance.isLoading? "Loading..." : percentFormatter.format( binance.data[index].priceChangePercent / 100)
                   )
             }
           />
@@ -51,19 +47,19 @@ export default function Inputs() {
           <Input
             type="text"
             label="Cotação-dollar (R$)"
-            data={
+            data={awesomeapi.error ? "Error" : (
               awesomeapi.isLoading
                 ? "Loading..."
-                : "R" + currencyFormatter.format(awesomeapi.data.USDBRL.bid)
+                : "R" + currencyFormatter.format(awesomeapi.data.USDBRL.bid))
             }
           />
           <Input
             type="text"
             label="Cotação-euro (R$)"
-            data={
+            data={awesomeapi.error ? "Error" : (
               awesomeapi.isLoading
                 ? "Loading..."
-                : "R" + currencyFormatter.format(awesomeapi.data.EURBRL.bid)
+                : "R" + currencyFormatter.format(awesomeapi.data.EURBRL.bid))
             }
           />
         </div>
@@ -71,19 +67,19 @@ export default function Inputs() {
           <Input
             type="text"
             label="Venda-ask (Dollar)"
-            data={
+            data={binance.error ? "Error" : (
               binance.isLoading
                 ? "Loading..."
-                : currencyFormatter.format(binance.data[index].askPrice)
+                : currencyFormatter.format(binance.data[index].askPrice))
             }
           />
           <Input
             type="text"
             label="Compra-bid (Dollar)"
-            data={
+            data={binance.error ? "Error" : (
               binance.isLoading
                 ? "Loading..."
-                : currencyFormatter.format(binance.data[index].bidPrice)
+                : currencyFormatter.format(binance.data[index].bidPrice))
             }
           />
         </div>
@@ -91,19 +87,19 @@ export default function Inputs() {
           <Input
             type="text"
             label="Máximo (high)"
-            data={
+            data={binance.error ? "Error" : (
               binance.isLoading
                 ? "Loading..."
-                : currencyFormatter.format(binance.data[index].highPrice)
+                : currencyFormatter.format(binance.data[index].highPrice))
             }
           />
           <Input
             type="text"
             label="Mínimo (low)"
-            data={
+            data={binance.error ? "Error" : (
               binance.isLoading
                 ? "Loading..."
-                : currencyFormatter.format(binance.data[index].lowPrice)
+                : currencyFormatter.format(binance.data[index].lowPrice))
             }
           />
         </div>
@@ -111,25 +107,26 @@ export default function Inputs() {
           <Input
             type="text"
             label="Venda (Real)"
-            data={
+            data={binance.error ? "Error" : (
               binance.isLoading
                 ? "Loading..."
-                : "R" + currencyFormatter.format(binance.data[index].askPrice * awesomeapi.data.USDBRL.bid)
+                : "R" + currencyFormatter.format(binance.data[index].askPrice * awesomeapi.data.USDBRL.bid))
             }
           />
           <Input
             type="text"
             label="compra (Real)"
-            data={
+            data={binance.error ? "Error" : (
               binance.isLoading
                 ? "Loading..."
-                : "R" + currencyFormatter.format(binance.data[index].lowPrice * awesomeapi.data.USDBRL.bid)
+                : "R" + currencyFormatter.format(binance.data[index].lowPrice * awesomeapi.data.USDBRL.bid))
             }
           />
         </div>
       </div>
       <Results datas={gemini.data}
-                isLoading={gemini.isLoading}/>
+                isLoading={gemini.isLoading}
+                error={gemini.error}/>
     </section>
   );
 }

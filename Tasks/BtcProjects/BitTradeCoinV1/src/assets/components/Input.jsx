@@ -1,4 +1,4 @@
-export default function Input({ data, label, type, onChange }) {
+export default function Input({ data, label, type, onChange, error }) {
   const icon = (cod) => String.fromCodePoint(cod);
   const seting =
     data.includes("-") && data.includes("%")
@@ -15,7 +15,7 @@ export default function Input({ data, label, type, onChange }) {
           <input
             type={type}
             readOnly
-            value={seting ? seting.icon + " " + data : data}
+            value={error? "Erro" :(seting ? seting.icon + " " + data : data)}
             className={seting.cssClass}
           />
         </>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { percentResultFormatter, usdFormatter } from "../../util/formatting";
 import { v4 as uuidv4 } from "uuid";
 
-export default function Results({ datas, isLoading }) {
+export default function Results({ datas, isLoading, error }) {
   const [loading, setLoading] = useState(isLoading);
   const [resultDatas, setResultDatas] = useState();
   const getIndex = (data) =>
@@ -24,7 +24,7 @@ export default function Results({ datas, isLoading }) {
       }));
       console.log("Its ok ", arr, datas.changes);
       setResultDatas(arr);
-      setLoading(isLoading)
+      setLoading(isLoading);
     }
   }
 
@@ -35,9 +35,14 @@ export default function Results({ datas, isLoading }) {
   console.log(resultDatas);
   return (
     <>
+      {error ?? (
+        <div>
+          <h1 className="center">{error}</h1>
+        </div>
+      )}
       {loading ? (
         <div>
-          <h1 className="center">Loading...</h1>
+          <h1 className="center">{isLoading}</h1>
         </div>
       ) : (
         <table id="result" className="center">
