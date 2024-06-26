@@ -1,4 +1,4 @@
-import img from "../bitcoin-Currency.png";
+import img from "../../public/bitcoin-Currency.png";
 
 export default function Header({children}) {
     return (

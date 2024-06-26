@@ -1,10 +1,11 @@
-import Input from "./assets/components/Inputs.jsx";
+import Inputs from "./components/Inputs.jsx";
+import {DatasContextProvider} from "./store/DatasContext.jsx";
 
 function App() {
   return (
-    <>
-      <Input />
-    </>
+    <DatasContextProvider>
+      <Inputs />
+    </DatasContextProvider>
   );
 }
 

@@ -42,55 +42,55 @@ fetch (url [, options])
 
 # Modelos 
 **Exemplo mais comum do uso de fetch**
-// useEffect(() => {
-//    fetch("https://api4.binance.com/api/v3/ticker/24hr")
-//       .then((response) => response.json())
-//       .then((data) => {
-//          console.log(data[index]);
-//          setData(data);
-//       })
-//       .catch((err) => {
-//          console.log(err.message);
-//       });
-// }, []);
+ useEffect(() => {
+    fetch("https://api4.binance.com/api/v3/ticker/24hr")
+       .then((response) => response.json())
+       .then((data) => {
+          console.log(data[index]);
+          setData(data);
+       })
+       .catch((err) => {
+          console.log(err.message);
+       });
+ }, []);
 
 **Exemplo com uso de axios**
-// Obs: necessário installar a biblioteca axios.
-// npm install axios
-// import axios from 'axios'
+Obs: necessário installar a biblioteca axios.
+npm install axios
+import axios from 'axios'
 
-// useEffect(() => {
-//   axios.get("https://api4.binance.com/api/v3/ticker/24hr")
-//     .then(response => {
-//       setData(response.data);
-//     })
-//     .catch(error => {
-//       console.error(error);
-//     });
-// }, []);
-// const [data, setData] = useState([]);
-// const [isLoading, setLoading] = useState();
+useEffect(() => {
+  axios.get("https://api4.binance.com/api/v3/ticker/24hr")
+    .then(response => {
+      setData(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}, []);
+const [data, setData] = useState([]);
+const [isLoading, setLoading] = useState();
 
 **Exemplo com início e fim de carregamento (isLoading)**
-//Obs: este modelo evita o erro de variável undefinid,
-// pois carrega primeiramente uma mesagem (loading)
+Obs: este modelo evita o erro de variável undefinid,
+pois carrega primeiramente uma mesagem (loading)
 
-// useEffect(() => {
-//   const fetchData = async () => {
-//     try {
-//       setLoading(true);
-//       const response = await fetch('https://api.gemini.com/v2/ticker/btcusd');
-//       const resData = await response.json();
-//       setData(resData);
-//       // console.log(resData.bpi.USD.rate);
-//       // console.log(data.symbol);
-//     } catch (error) {
-//       console.log("Error fetching data:", error);
-//     }
-//     setLoading(false);
-//   };
-//   fetchData();
-// }, []);
+useEffect(() => {
+  const fetchData = async () => {
+     try {
+      setLoading(true);
+      const response = await fetch('https://api.gemini.com/v2/ticker/btcusd');
+      const resData = await response.json();
+      setData(resData);
+      // console.log(resData.bpi.USD.rate);
+      // console.log(data.symbol);
+     } catch (error) {
+       console.log("Error fetching data:", error);
+     }
+    setLoading(false);
+  };
+  fetchData();
+}, []);
 
 
 ###### INFORMAÇÕES IMPORTANTES!! ######
@@ -98,4 +98,4 @@ fetch (url [, options])
 updatedItems.splice(existingCartItemIndex, 1);
 updatedItems.filter((item) => item.id !== action.item.id)
 a função filter() executa a mesma tarefa da função splice()
-porém não remove o último ítem
+porém não remove o último ítem (*necessita mais informações*)
