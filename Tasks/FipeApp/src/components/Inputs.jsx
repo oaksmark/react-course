@@ -1,16 +1,18 @@
 import { useContext } from "react";
+import UseDataContext from "../store/DataContext.jsx";
 import Header from "./Header.jsx";
-import Results from "./Result.jsx";
+import Result from "./Result.jsx";
 import Buttons from "./Buttons.jsx";
 import Input from "./Input.jsx";
-import UseDataContext from "../store/DataContext.jsx";
-
-const icon = (cod) => String.fromCodePoint(cod);
+import Modal from "./Modal.jsx";
+import Error from "./Error.jsx";
+import Warning from "./Warning.jsx";
+import useHttp from "../hooks/useHttp.js";
 
 export default function Inputs() {
+  const dataUrl = useHttp();
   const dataCtx = useContext(UseDataContext);
-
-  // console.log(types);
+  const iconCode = (cod) => String.fromCodePoint(cod);
 
   return (
     <section id="user-input">
@@ -30,13 +32,15 @@ export default function Inputs() {
             type="select"
             label="marca"
             article="a"
-            onChange={dataCtx.handleSelectModel}
+            onChange={dataCtx.handleSelectBrand}
             datas={
               dataCtx.order < 2
                 ? dataCtx.warning[2]
-                : dataCtx.urlDatas.isLoading
+                : dataCtx.isLoading
                 ? dataCtx.warning[1]
-                : dataCtx.urlDatas.data
+                : dataCtx.error
+                ? dataCtx.warning[0]
+                : dataCtx.brands
             }
           />
         </div>
@@ -45,23 +49,53 @@ export default function Inputs() {
             type="select"
             label="modelo"
             article="o"
+            onChange={dataCtx.handleSelectModel}
             datas={
               dataCtx.order < 3
                 ? dataCtx.warning[2]
-                : dataCtx.urlDatas.isLoading
+                : dataCtx.isLoading
                 ? dataCtx.warning[1]
-                : dataCtx.urlDatas.data
+                : dataCtx.error
+                ? dataCtx.warning[0]
+                : dataCtx.models.modelos
             }
           />
         </div>
         <div>
-          {/* <Input type="select" label="ano" readyOnly data={( dataCtx.urlDatas.isLoading? warning[1]dataCtx.urlDatas.data)} disabled/> */}
+          <Input
+            type="select"
+            label="ano"
+            article="o"
+            onChange={dataCtx.handleSelectYear}
+            datas={
+              dataCtx.order < 4
+                ? dataCtx.warning[2]
+                : dataCtx.isLoading
+                ? dataCtx.warning[1]
+                : dataCtx.error
+                ? dataCtx.warning[0]
+                : dataCtx.years
+            }
+          />{" "}
         </div>
       </div>
       <div className="center">
-        <Buttons value="Buscar" />
-        <Results />
-      </div>
+        <Buttons
+          value={"Pesquisar " + iconCode(128269)}
+          onClick={dataCtx.handleBtnClick}
+        />
+      </div>{" "}
+      <Modal open={dataCtx.modal}>
+        {dataCtx.order == 6 && (
+          <Result datas={dataCtx.order == 6 && dataCtx.result} />
+        )}
+        {dataCtx.error && (
+          <Error error={dataCtx.error && dataCtx.error.message} />
+        )}
+        {!dataCtx.error && dataCtx.order < 5 && 
+          <Warning />
+        }
+      </Modal>
     </section>
   );
 }

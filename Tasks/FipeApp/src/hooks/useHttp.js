@@ -9,34 +9,32 @@ async function sendHttpRequest(url, config) {
     throw new Error(
       response.statusText + " Erro " + response.status,
       // resData.message || "Something went wrong, failed to send request."
-      console.log(Error)
+      console.log(Error, resData.error)
     );
   }
   return resData;
 }
 
-export default function useHttp(url, config) {
+export default function useHttp(url) {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState();
 
   const sendRequest = useCallback(
-    async function sendRequest() {
+    async function sendRequest(url, config) {
     setIsLoading(true);
     try {
-      const resData = await sendHttpRequest(url, config);
-      setData(resData);
+      resData = await sendHttpRequest(url, config);
       console.log(resData);
-    } catch (error) {
-      setError(error.message);
-      console.log(error.message);
+      setData(resData);
+    } catch (err) {
+      error = err;
+      setError(err.message);
+      console.log(err.message);
     }
     setIsLoading(false);
+      return {resData, error};
   }, [url]);
-
-  // useEffect(() => {
-  //   sendRequest();
-  // }, []);
 
   return {
     data,
