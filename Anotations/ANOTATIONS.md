@@ -42,6 +42,7 @@ fetch (url [, options])
 
 # Modelos 
 **Exemplo mais comum do uso de fetch**
+```
  useEffect(() => {
     fetch("https://api4.binance.com/api/v3/ticker/24hr")
        .then((response) => response.json())
@@ -53,12 +54,12 @@ fetch (url [, options])
           console.log(err.message);
        });
  }, []);
-
+```
 **Exemplo com uso de axios**
 Obs: necessário installar a biblioteca axios.
 npm install axios
 import axios from 'axios'
-
+```
 useEffect(() => {
   axios.get("https://api4.binance.com/api/v3/ticker/24hr")
     .then(response => {
@@ -68,13 +69,14 @@ useEffect(() => {
       console.error(error);
     });
 }, []);
+```
 const [data, setData] = useState([]);
 const [isLoading, setLoading] = useState();
 
 **Exemplo com início e fim de carregamento (isLoading)**
 Obs: este modelo evita o erro de variável undefinid,
 pois carrega primeiramente uma mesagem (loading)
-
+```
 useEffect(() => {
   const fetchData = async () => {
      try {
@@ -91,6 +93,7 @@ useEffect(() => {
   };
   fetchData();
 }, []);
+```
 
 
 ###### INFORMAÇÕES IMPORTANTES!! ######
