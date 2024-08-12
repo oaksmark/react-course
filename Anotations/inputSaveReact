@@ -1,0 +1,47 @@
+import Input from './Input';
+import React from 'react';
+
+export const userData = {
+  name: '',
+  email: '',
+};
+
+export function App() {    
+
+    const userName = React.useRef();
+    const userMail = React.useRef();
+    
+  function handleSaveData() {
+      setEnteredName(userName.current.value);
+      setEnteredMail(userMail.current.value)
+    userData.name = userName.current.value; 
+    userData.email = userMail.current.value;
+
+    console.log(userData);
+  }
+
+  return (
+    <div id="app">
+      <Input ref={userName} type="text" label="Your Name" />
+      <Input ref={userMail} type="email" label="Your E-Mail" />
+      <p id="actions">
+        <button onClick={handleSaveData}>Save Data</button>
+      </p>
+    </div>
+  );
+}
+
+import React from 'react';
+
+const Input = React.forwardRef(
+function Input({ type, label }, ref) {
+  // Todo: Accept forwarded ref and "connect" it to the <input> element
+  return (
+    <p className="control">
+      <label> {label}</label>
+      {/* Todo: "Forward" remaining props to <input> element */}
+      <input type={type} ref={ref} />
+    </p>
+  );
+})
+export default Input;
