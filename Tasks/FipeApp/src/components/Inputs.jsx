@@ -20,6 +20,7 @@ export default function Inputs() {
       <div className="input-group center">
         <div>
           <Input
+            id="1"
             type="select"
             label="tipo"
             article="o"
@@ -29,52 +30,55 @@ export default function Inputs() {
         </div>
         <div>
           <Input
+            id="2"
             type="select"
             label="marca"
             article="a"
             onChange={dataCtx.handleSelectBrand}
             datas={
-              dataCtx.order < 2
-                ? dataCtx.warning[2]
-                : dataCtx.isLoading
-                ? dataCtx.warning[1]
-                : dataCtx.error
-                ? dataCtx.warning[0]
-                : dataCtx.brands
+              dataCtx.order >= 2 &&
+                // ? dataCtx.warning[2]
+                // : dataCtx.isLoading
+                // ? dataCtx.warning[1]
+                // : dataCtx.error
+                // ? dataCtx.warning[0]
+              dataCtx.brands
             }
           />
         </div>
         <div>
           <Input
+            id="3"
             type="select"
             label="modelo"
             article="o"
             onChange={dataCtx.handleSelectModel}
             datas={
-              dataCtx.order < 3
-                ? dataCtx.warning[2]
-                : dataCtx.isLoading
-                ? dataCtx.warning[1]
-                : dataCtx.error
-                ? dataCtx.warning[0]
-                : dataCtx.models
+              dataCtx.order >= 3 &&
+                // ? dataCtx.warning[2]
+                // : dataCtx.isLoading
+                // ? dataCtx.warning[1]
+                // : dataCtx.error
+                // ? dataCtx.warning[0]
+                 dataCtx.models
             }
           />
         </div>
         <div>
           <Input
+            id="4"
             type="select"
             label="ano"
             article="o"
             onChange={dataCtx.handleSelectYear}
             datas={
-              dataCtx.order < 4
-                ? dataCtx.warning[2]
-                : dataCtx.isLoading
-                ? dataCtx.warning[1]
-                : dataCtx.error
-                ? dataCtx.warning[0]
-                : dataCtx.years
+              dataCtx.order >= 4 &&
+                // ? dataCtx.warning[2]
+                // : dataCtx.isLoading
+                // ? dataCtx.warning[1]
+                // : dataCtx.error
+                // ? dataCtx.warning[0]
+                 dataCtx.years
             }
           />{" "}
         </div>

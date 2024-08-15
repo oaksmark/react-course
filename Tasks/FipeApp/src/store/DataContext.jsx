@@ -8,11 +8,12 @@ const config = {
   },
 };
 const UseDataContext = createContext({
-  handleSelectType: () => {},
-  handleSelectBrand: () => {},
-  handleSelectModel: () => {},
-  handleSelectYear: () => {},
-  handleBtnClick: () => {},
+  handleSelectType: () => { },
+  handleSelectBrand: () => { },
+  handleSelectModel: () => { },
+  handleSelectYear: () => { },
+  handleBtnClick: () => { },
+  isLoading: "",
   warning: "",
   order: "",
   error: "",
@@ -27,6 +28,7 @@ const UseDataContext = createContext({
 
 export function UseDataContextProvider({ children }) {
   const [order, setOrder] = useState(1);
+  const [isLoading, setIsloading] = useState();
   const [url, setUrl] = useState();
   const [error, setError] = useState("");
   const [modal, setModal] = useState();
@@ -49,54 +51,76 @@ export function UseDataContextProvider({ children }) {
 
   const warning = [
     [{ code: "00", name: `Erro (${error && error.message})` }],
-    [{ code: "01", name: "Carregando" }],
-    [{ code: "02", name: `Selecione o ${order}º campo`, disabled: true }],
+    { code: "01", name: "Aguarde..." },
+    { code: "02", name: `Selecione o ${order}º campo` },
   ];
 
 
   async function handleSelectType(value) {
+    setIsloading(true);
+    setOrder(2);
     const type = value.code;
-    const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands`;
+    const url = "http://localhost:3000/brands";
+    // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands`;
     const dataBrand = await urlDatas.sendRequest(url, config);
-    dataBrand.error && (setModal(true),setError(dataBrand.error));
-    setBrands(dataBrand.resData);
+    dataBrand.error && (setModal(true), setError(dataBrand.error));
     setType(type);
     setUrl(url);
-    setOrder(2);
+    setTimeout(() => {
+      setBrands(dataBrand.resData);
+      // setOrder(2);
+      setIsloading(false);
+    }, 3000);
   }
 
   async function handleSelectBrand(value) {
+    setIsloading(true);
+    setOrder(3);
     const brand = value.code;
-    const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models`;
+    const url = "http://localhost:3000/models";
+    // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models`;
     const dataModel = await urlDatas.sendRequest(url, config);
     dataModel.error && (setModal(true), setError(dataModel.error));
     setModels(dataModel.resData);
     setBrand(brand);
     setUrl(url);
-    setOrder(3);
-  }
+    setTimeout(() => {
+      // setOrder(3);
+      setIsloading(false);
+    }, 3000);  }
 
   async function handleSelectModel(value) {
+    setIsloading(true);
+    setOrder(4);
     const model = value.code;
-    const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models/${model}/years`;
+    const url = "http://localhost:3000/years";
+    // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models/${model}/years`;
     const dataYear = await urlDatas.sendRequest(url, config);
     dataYear.error && (setModal(true), setError(dataYear.error));
     setYears(dataYear.resData);
     setModel(model);
-    setUrl(url);
-    setOrder(4);
+    setTimeout(() => {
+      // setOrder(4);
+      setIsloading(false);
+    }, 3000);
   }
 
   async function handleSelectYear(value) {
+    setIsloading(true);
+    setOrder(5);
     const year = value.code;
-    const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models/${model}/years/${year}`;
+    const url = "http://localhost:3000/result";
+    // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models/${model}/years/${year}`;
     const dataResult = await urlDatas.sendRequest(url, config);
     dataResult.error && (setModal(true), setError(dataResult.error));
+    console.log(dataResult.resData)
     setResult(dataResult.resData);
     setYear(year);
     setUrl(url);
-    setOrder(5);
-  }
+    setTimeout(() => {
+      // setOrder(5);
+      setIsloading(false);
+    }, 3000);  }
 
   function handleBtnClick() {
     if (order < 5) {
@@ -118,6 +142,7 @@ export function UseDataContextProvider({ children }) {
     handleSelectModel,
     handleSelectYear,
     handleBtnClick,
+    isLoading,
     warning,
     error,
     order,
