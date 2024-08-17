@@ -25,7 +25,7 @@ export default function Inputs() {
             label="tipo"
             article="o"
             onChange={dataCtx.handleSelectType}
-            datas={dataCtx.types}
+            datas={dataCtx.order >= 1 && dataCtx.types}
           />
         </div>
         <div>
@@ -35,15 +35,7 @@ export default function Inputs() {
             label="marca"
             article="a"
             onChange={dataCtx.handleSelectBrand}
-            datas={
-              dataCtx.order >= 2 &&
-                // ? dataCtx.warning[2]
-                // : dataCtx.isLoading
-                // ? dataCtx.warning[1]
-                // : dataCtx.error
-                // ? dataCtx.warning[0]
-              dataCtx.brands
-            }
+            datas={dataCtx.order >= 2 && dataCtx.brands}
           />
         </div>
         <div>
@@ -53,15 +45,7 @@ export default function Inputs() {
             label="modelo"
             article="o"
             onChange={dataCtx.handleSelectModel}
-            datas={
-              dataCtx.order >= 3 &&
-                // ? dataCtx.warning[2]
-                // : dataCtx.isLoading
-                // ? dataCtx.warning[1]
-                // : dataCtx.error
-                // ? dataCtx.warning[0]
-                 dataCtx.models
-            }
+            datas={dataCtx.order >= 3 && dataCtx.models}
           />
         </div>
         <div>
@@ -71,15 +55,7 @@ export default function Inputs() {
             label="ano"
             article="o"
             onChange={dataCtx.handleSelectYear}
-            datas={
-              dataCtx.order >= 4 &&
-                // ? dataCtx.warning[2]
-                // : dataCtx.isLoading
-                // ? dataCtx.warning[1]
-                // : dataCtx.error
-                // ? dataCtx.warning[0]
-                 dataCtx.years
-            }
+            datas={dataCtx.order >= 4 && dataCtx.years}
           />{" "}
         </div>
       </div>
@@ -89,14 +65,14 @@ export default function Inputs() {
           onClick={dataCtx.handleBtnClick}
         />
       </div>{" "}
-      <Modal open={dataCtx.modal}>
+      <Modal open={!dataCtx.isLoading && dataCtx.modal}>
         {dataCtx.order == 6 && (
           <Result datas={dataCtx.order == 6 && dataCtx.result} />
         )}
         {dataCtx.error && (
           <Error error={dataCtx.error && dataCtx.error.message} />
         )}
-        {!dataCtx.error && dataCtx.order < 5 && 
+        {!dataCtx.error && dataCtx.order < 6 &&
           <Warning />
         }
       </Modal>

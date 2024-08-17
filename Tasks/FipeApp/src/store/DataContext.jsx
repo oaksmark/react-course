@@ -56,22 +56,42 @@ export function UseDataContextProvider({ children }) {
   ];
 
 
+  console.log("isloading 1 ", isLoading )
+
+  async function sendRequest(url, config) {
+    let resData = null;
+    let error = null;
+    // setIsLoading(true);
+    try {
+      resData = await urlDatas.sendHttpRequest(url, config);
+      // setData(resData);
+    } catch (err) {
+      error = err;
+      // setError(err.message);
+    }
+    // setIsLoading(false);
+    return { resData, error };
+  }
+
+
   async function handleSelectType(value) {
     setIsloading(true);
     setOrder(2);
     const type = value.code;
     const url = "http://localhost:3000/brands";
     // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands`;
-    const dataBrand = await urlDatas.sendRequest(url, config);
+    const dataBrand = await sendRequest(url, config);
     dataBrand.error && (setModal(true), setError(dataBrand.error));
-    setType(type);
-    setUrl(url);
+    console.log(dataBrand);
     setTimeout(() => {
       setBrands(dataBrand.resData);
+      setType(type);
+      setUrl(url);
       // setOrder(2);
       setIsloading(false);
     }, 3000);
   }
+    console.log("isloading 2 " ,isLoading);
 
   async function handleSelectBrand(value) {
     setIsloading(true);
@@ -79,15 +99,16 @@ export function UseDataContextProvider({ children }) {
     const brand = value.code;
     const url = "http://localhost:3000/models";
     // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models`;
-    const dataModel = await urlDatas.sendRequest(url, config);
+    const dataModel = await sendRequest(url, config);
     dataModel.error && (setModal(true), setError(dataModel.error));
-    setModels(dataModel.resData);
-    setBrand(brand);
     setUrl(url);
     setTimeout(() => {
+      setModels(dataModel.resData);
+      setBrand(brand);
       // setOrder(3);
       setIsloading(false);
-    }, 3000);  }
+    }, 3000);
+  }
 
   async function handleSelectModel(value) {
     setIsloading(true);
@@ -95,11 +116,11 @@ export function UseDataContextProvider({ children }) {
     const model = value.code;
     const url = "http://localhost:3000/years";
     // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models/${model}/years`;
-    const dataYear = await urlDatas.sendRequest(url, config);
+    const dataYear = await sendRequest(url, config);
     dataYear.error && (setModal(true), setError(dataYear.error));
-    setYears(dataYear.resData);
-    setModel(model);
     setTimeout(() => {
+      setYears(dataYear.resData);
+      setModel(model);
       // setOrder(4);
       setIsloading(false);
     }, 3000);
@@ -111,16 +132,17 @@ export function UseDataContextProvider({ children }) {
     const year = value.code;
     const url = "http://localhost:3000/result";
     // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models/${model}/years/${year}`;
-    const dataResult = await urlDatas.sendRequest(url, config);
+    const dataResult = await sendRequest(url, config);
     dataResult.error && (setModal(true), setError(dataResult.error));
-    console.log(dataResult.resData)
-    setResult(dataResult.resData);
-    setYear(year);
-    setUrl(url);
-    setTimeout(() => {
+      setResult(dataResult.resData);
+      setYear(year);
+      setUrl(url);
       // setOrder(5);
+    setTimeout(() => {
+      console.log(dataResult.resData)
       setIsloading(false);
-    }, 3000);  }
+    }, 3000);
+  }
 
   function handleBtnClick() {
     if (order < 5) {
@@ -132,7 +154,8 @@ export function UseDataContextProvider({ children }) {
     }
     if (order == 6 || error) {
       setModal(false);
-      window.location.reload();
+      // window.location.reload();
+      setOrder(1)
     }
   }
 
