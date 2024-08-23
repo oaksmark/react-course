@@ -23,17 +23,26 @@ h2 {
 }
 
 #header {
+  height: 200px;
   text-align: center;
   margin: 1rem auto;
 }
 
-#header img {
+#header-img {
   width: 8rem;
-  height: 8rem;
-  object-fit: contain;
+  position: absolute;
+  margin-left: -4rem; 
+  margin-right: auto; 
   background: radial-gradient(#ffe24196, #43360000);
   border-radius: 50%;
   box-shadow: 0px 0px 20px 10px #ffe34134;
+}
+
+#overlay-img {
+  position: absolute;
+  margin-left: -4rem; 
+  margin-right: auto; 
+  width: 8rem;
 }
 
 #user-input {
@@ -181,6 +190,10 @@ input[type="number"] {
   background-color: rgba(0, 0, 0, 0.55);
 }
 
+.horizontal-shake {
+  animation: horizontal-shaking 1.3s infinite;
+}
+
 @keyframes fade-slide-up {
   from {
     opacity: 0;
@@ -192,3 +205,14 @@ input[type="number"] {
     transform: translateY(0);
   }
 }
+
+@keyframes horizontal-shaking {
+  0% { transform: translateX(0) }
+  10% { transform: translateX(5px) }
+  20% { transform: translateX(-5px) }
+  30% { transform: translateX(5px) }
+  100% { transform: translateX(0) }
+}
+
+
+

@@ -7,12 +7,16 @@ const config = {
     "Content-Type": "application/json",
   },
 };
+
+const api = "https://fipe.parallelum.com.br/api/v2/";
+
 const UseDataContext = createContext({
   handleSelectType: () => { },
   handleSelectBrand: () => { },
   handleSelectModel: () => { },
   handleSelectYear: () => { },
   handleBtnClick: () => { },
+  handleDataReset: () => { },
   isLoading: "",
   warning: "",
   order: "",
@@ -29,10 +33,10 @@ const UseDataContext = createContext({
 export function UseDataContextProvider({ children }) {
   const [order, setOrder] = useState(1);
   const [isLoading, setIsloading] = useState();
-  const [url, setUrl] = useState();
+  const [urlApi, setUrlApi] = useState(api);
   const [error, setError] = useState("");
   const [modal, setModal] = useState();
-  const urlDatas = useHttp(url);
+  const urlDatas = useHttp(urlApi);
 
   const [type, setType] = useState();
   const [brand, setBrand] = useState();
@@ -56,7 +60,7 @@ export function UseDataContextProvider({ children }) {
   ];
 
 
-  console.log("isloading 1 ", isLoading )
+  // console.log("isloading 1 ", isLoading)
 
   async function sendRequest(url, config) {
     let resData = null;
@@ -65,9 +69,11 @@ export function UseDataContextProvider({ children }) {
     try {
       resData = await urlDatas.sendHttpRequest(url, config);
       // setData(resData);
+      console.log(resData);
     } catch (err) {
       error = err;
       // setError(err.message);
+      // console.log(error, error.message);
     }
     // setIsLoading(false);
     return { resData, error };
@@ -75,73 +81,77 @@ export function UseDataContextProvider({ children }) {
 
 
   async function handleSelectType(value) {
+    // order > 1 && handleDataReset();
     setIsloading(true);
     setOrder(2);
     const type = value.code;
-    const url = "http://localhost:3000/brands";
-    // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands`;
+    // const url = "http://localhost:3000/brands";
+    const url = `${api}${type}/brands/`;
     const dataBrand = await sendRequest(url, config);
     dataBrand.error && (setModal(true), setError(dataBrand.error));
-    console.log(dataBrand);
+    setBrands(dataBrand.resData);
+    setType(type);
+    setUrlApi(url);
     setTimeout(() => {
-      setBrands(dataBrand.resData);
-      setType(type);
-      setUrl(url);
       // setOrder(2);
       setIsloading(false);
-    }, 3000);
+    }, 2000);
   }
-    console.log("isloading 2 " ,isLoading);
+  // console.log("isloading 2 ", isLoading);
+  console.log("reset ", type, brand, model, year, result);
 
   async function handleSelectBrand(value) {
+    // order > 2 && handleDataReset();
     setIsloading(true);
     setOrder(3);
     const brand = value.code;
-    const url = "http://localhost:3000/models";
-    // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models`;
+    // const url = "http://localhost:3000/models";
+    const url = `${api}${type}/brands/${brand}/models/`;
     const dataModel = await sendRequest(url, config);
     dataModel.error && (setModal(true), setError(dataModel.error));
-    setUrl(url);
+    setUrlApi(url);
+    setModels(dataModel.resData);
+    setBrand(brand);
     setTimeout(() => {
-      setModels(dataModel.resData);
-      setBrand(brand);
       // setOrder(3);
       setIsloading(false);
-    }, 3000);
+    }, 2000);
   }
 
   async function handleSelectModel(value) {
+    // order > 3 && handleDataReset();
     setIsloading(true);
     setOrder(4);
     const model = value.code;
-    const url = "http://localhost:3000/years";
-    // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models/${model}/years`;
+    // const url = "http://localhost:3000/years";
+    const url = `${api}${type}/brands/${brand}/models/${model}/years/`;
     const dataYear = await sendRequest(url, config);
     dataYear.error && (setModal(true), setError(dataYear.error));
+    setYears(dataYear.resData);
+    setModel(model);
+    setUrlApi(url);
     setTimeout(() => {
-      setYears(dataYear.resData);
-      setModel(model);
       // setOrder(4);
       setIsloading(false);
-    }, 3000);
+    }, 2000);
   }
 
   async function handleSelectYear(value) {
+    // order > 4 && handleDataReset();
     setIsloading(true);
     setOrder(5);
     const year = value.code;
-    const url = "http://localhost:3000/result";
-    // const url = `https://fipe.parallelum.com.br/api/v2/${type}/brands/${brand}/models/${model}/years/${year}`;
+    // const url = "http://localhost:3000/result";
+    const url = `${api}${type}/brands/${brand}/models/${model}/years/${year}`;
     const dataResult = await sendRequest(url, config);
     dataResult.error && (setModal(true), setError(dataResult.error));
-      setResult(dataResult.resData);
-      setYear(year);
-      setUrl(url);
-      // setOrder(5);
+    setResult(dataResult.resData);
+    setYear(year);
+    setUrlApi(url);
+    // setOrder(5);
     setTimeout(() => {
-      console.log(dataResult.resData)
       setIsloading(false);
-    }, 3000);
+    }, 2000);
   }
 
   function handleBtnClick() {
@@ -154,9 +164,22 @@ export function UseDataContextProvider({ children }) {
     }
     if (order == 6 || error) {
       setModal(false);
+      setOrder(1);
+      handleDataReset();
       // window.location.reload();
-      setOrder(1)
     }
+  }
+
+  function handleDataReset() {
+    setType();
+    setBrand();
+    setBrands();
+    setModel();
+    setModels();
+    setYear();
+    setYears();
+    setResult()
+    setUrlApi(api);
   }
 
   const useDataCtx = {
@@ -165,6 +188,7 @@ export function UseDataContextProvider({ children }) {
     handleSelectModel,
     handleSelectYear,
     handleBtnClick,
+    handleDataReset,
     isLoading,
     warning,
     error,

@@ -17,7 +17,7 @@ export default function Inputs() {
   return (
     <section id="user-input">
       <Header></Header>
-      <div className="input-group center">
+      <form className="input-group center">
         <div>
           <Input
             id="1"
@@ -58,23 +58,24 @@ export default function Inputs() {
             datas={dataCtx.order >= 4 && dataCtx.years}
           />{" "}
         </div>
-      </div>
+      </form>
       <div className="center">
         <Buttons
           value={"Pesquisar " + iconCode(128269)}
           onClick={dataCtx.handleBtnClick}
+          disabled={dataCtx.isLoading && true}
+          shake={!dataCtx.isLoading && dataCtx.order == 5 && true}
         />
       </div>{" "}
-      <Modal open={!dataCtx.isLoading && dataCtx.modal}>
-        {dataCtx.order == 6 && (
-          <Result datas={dataCtx.order == 6 && dataCtx.result} />
+      <Modal open={dataCtx.modal}>
+        {!dataCtx.error && dataCtx.order == 6 ? (
+          <Result />
+         ) :
+          dataCtx.error ? (
+            <Error />
+         ) : (
+            <Warning />
         )}
-        {dataCtx.error && (
-          <Error error={dataCtx.error && dataCtx.error.message} />
-        )}
-        {!dataCtx.error && dataCtx.order < 6 &&
-          <Warning />
-        }
       </Modal>
     </section>
   );

@@ -1,6 +1,6 @@
 import { useContext, useState, useRef, useEffect } from "react";
 import UseDataContext from "../store/DataContext";
-import { customStyle } from "../utils/SelectStyle.js";
+import { customStyle } from "../selectStyle.js";
 
 // import classNames from 'classnames';
 import Select from "react-select";
@@ -8,6 +8,7 @@ import Select from "react-select";
 export default function Input({ id, datas, label, article, onChange }) {
   const dataCtx = useContext(UseDataContext);
   const [selectedOption, setSelectedOption] = useState([]);
+
   // const clear = useRef();
 
 
@@ -19,7 +20,8 @@ export default function Input({ id, datas, label, article, onChange }) {
 
   const palceholderMsg = dataCtx.isLoading && (id == dataCtx.order)
     ? "Pesquisando" : `Selecione ${article} ${label}`;
-
+  const noOptionsMsg = () => dataCtx.order < 5
+    ? dataCtx.warning[2].name : "Aguarde...";
 
   // console.log(clear.current);
   // console.log(selectedOption);
@@ -49,12 +51,12 @@ export default function Input({ id, datas, label, article, onChange }) {
         placeholder={palceholderMsg}
         getOptionLabel={(option) => option.name}
         getOptionValue={(option) => option.code}
-        noOptionsMessage={() => dataCtx.warning[2].name}
+        noOptionsMessage={noOptionsMsg}
         isOptionDisabled={(option) => option.disabled}
 
-        // value={null}
-        // onChange={(value) => onChange(value)}
-        // onChange={(value) => dataCtx.order == id && onChange(value)}
+      // value={null}
+      // onChange={(value) => onChange(value)}
+      // onChange={(value) => dataCtx.order == id && onChange(value)}
       // screenReaderStatus={() => dataCtx.warning[2].name}
       // isClearable
       // inputValue={selectedOption}
